@@ -1,4 +1,4 @@
-package com.iluwater.embeddedvalue;
+    package com.iluwater.embeddedvalue;
 
 public class Inventory {
     private static int egg;
@@ -20,12 +20,6 @@ public class Inventory {
         }
     }
 
-    public void addEgg(int amount){
-        if(amount >= 0){
-            egg += amount;
-        }
-    }
-
     public int getMilk() {  
         return milk;
     }
@@ -36,10 +30,5 @@ public class Inventory {
         }
     }
 
-    public void addEggs(int amount){
-        if(amount >= 0){
-            milk += amount;
-        }
-    }
     
 }

@@ -34,6 +34,16 @@ public class CakeStore {
         inventory.setMilk(milk);
     }
 
+    public int getBalance()
+    {
+        return balance;
+    }
+
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
+
     public boolean updateDB(DataSource dS) {
         try (var connection = dS.getConnection();
              var statement = connection.prepareStatement("UPDATE CAKESTORE SET balance = ?, egg = ?, milk = ?")) {
