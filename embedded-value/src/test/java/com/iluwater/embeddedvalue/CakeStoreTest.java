@@ -12,13 +12,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CakeStoreTest {
-    CakeStore cakestore;
+    static CakeStore cakestore;
     DataSource dataSource;
     private static final String URL = "jdbc:h2:~/embedded-value";
     public static final String CREATE_SCHEMA_SQL =
             "CREATE TABLE IF NOT EXISTS CAKESTORE(balance int, egg int, milk int);";
     public static final String DELETE_SCHEMA_SQL =
             "DROP TABLE CAKESTORE IF EXISTS";
+    public static final String INSERT_VALUE_SQL =
+            "INSERT INTO CAKESTORE VALUES(0, 0, 0)";
     @BeforeEach
     void initialize() throws SQLException
     {
@@ -26,9 +28,15 @@ public class CakeStoreTest {
         var dS = new JdbcDataSource();
         dS.setURL(URL);
         dataSource = dS;
-        try (var connection = DriverManager.getConnection(URL);
-             var statement = connection.createStatement()) {
+        try (var connection =dataSource.getConnection();
+             var statement = connection.createStatement();
+             var statement2 = connection.prepareStatement("SELECT * FROM CAKESTORE")) {
             statement.execute(CREATE_SCHEMA_SQL);
+            ResultSet rs = statement2.executeQuery();
+            if(!rs.next())
+            {
+                statement.execute(INSERT_VALUE_SQL);
+            }
         }
     }
 
@@ -55,16 +63,13 @@ public class CakeStoreTest {
             cakestore.update(newBalance, newEgg, newMilk);
             assertEquals(cakestore.updateDB(dataSource), true);
 
-
             try (var connection = dataSource.getConnection();
                  var statement = connection.prepareStatement("SELECT * FROM CAKESTORE")) {
                 ResultSet rs = statement.executeQuery();
-                if(rs.next())
-                {
-                    assertEquals(rs.getInt("balance"), newBalance);
-                    assertEquals(rs.getInt("egg"), newEgg);
-                    assertEquals(rs.getInt("milk"), newMilk);
-                }
+                assertEquals(true, rs.next());
+                assertEquals(rs.getInt("balance"), newBalance);
+                assertEquals(rs.getInt("egg"), newEgg);
+                assertEquals(rs.getInt("milk"), newMilk);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -76,7 +81,14 @@ public class CakeStoreTest {
             int newBalance = 3000;
             int newEgg = 10;
             int newMilk = 15;
-            cakestore.update(5000, 5, 10);
+            int tempBalance = 5000;
+            int tempEgg = 5;
+            int tempMilk = 8;
+            cakestore.update(tempBalance, tempEgg, tempMilk);
+
+            assertEquals(cakestore.getBalance(), tempBalance);
+            assertEquals(cakestore.getInventory().getEgg(), tempEgg);
+            assertEquals(cakestore.getInventory().getMilk(), tempMilk);
             try (var connection = dataSource.getConnection();
                  var statement = connection.prepareStatement("SELECT * FROM CAKESTORE")) {
                 ResultSet rs = statement.executeQuery();

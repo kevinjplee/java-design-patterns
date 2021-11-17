@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 public class CakeStore {
     private int balance;
-    private static Inventory inventory;
+    private Inventory inventory;
 
     public CakeStore()
     {
@@ -16,9 +16,10 @@ public class CakeStore {
         inventory = new Inventory();
     }
 
-    public static void load(ResultSet rs){
-    
+    public void load(ResultSet rs){
+        System.out.println("load start");
         try{
+            System.out.print("load try");
             int balance = rs.getInt("Balance");
             inventory.setEgg(rs.getInt("Egg"));
             inventory.setMilk(rs.getInt("Milk"));
@@ -27,13 +28,17 @@ public class CakeStore {
         }
     }
 
-    public static void update(int balance, int egg, int milk)
+    public void update(int _balance, int egg, int milk)
     {
-        balance = balance;
+        setBalance(_balance);
         inventory.setEgg(egg);
         inventory.setMilk(milk);
     }
 
+    public void setBalance(int _balance)
+    {
+        balance = _balance;
+    }
     public int getBalance()
     {
         return balance;
