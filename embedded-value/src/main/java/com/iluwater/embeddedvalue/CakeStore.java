@@ -10,12 +10,20 @@ public class CakeStore {
     private int balance;
     private Inventory inventory;
 
+    /**
+     * Initailizer for the CakeStore class.
+     */
     public CakeStore()
     {
         balance = 0;
         inventory = new Inventory();
     }
 
+    /**
+     * Loads the private variables with the value from the ResultSet.
+     * Calls setter for the inventory variable instead.
+     * @param rs
+     */
     public void load(ResultSet rs){
         System.out.println("load start");
         try{
@@ -28,6 +36,12 @@ public class CakeStore {
         }
     }
 
+    /**
+     * setter for the private variables.
+     * @param _balance
+     * @param egg
+     * @param milk
+     */
     public void update(int _balance, int egg, int milk)
     {
         setBalance(_balance);
@@ -35,20 +49,38 @@ public class CakeStore {
         inventory.setMilk(milk);
     }
 
+    /**
+     * setter for the private variable balance.
+     * @param _balance
+     */
     public void setBalance(int _balance)
     {
         balance = _balance;
     }
+
+    /**
+     * Getter for private variable balance.
+     * @return
+     */
     public int getBalance()
     {
         return balance;
     }
 
+    /**
+     * Getter for private variable Inventory.
+     * @return
+     */
     public Inventory getInventory()
     {
         return inventory;
     }
 
+    /**
+     * Updates the database for Cakestore with the private variable values.
+     * @param dS
+     * @return
+     */
     public boolean updateDB(DataSource dS) {
         try (var connection = dS.getConnection();
              var statement = connection.prepareStatement("UPDATE CAKESTORE SET balance = ?, egg = ?, milk = ?")) {

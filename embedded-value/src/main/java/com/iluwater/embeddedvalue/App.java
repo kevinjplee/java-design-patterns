@@ -25,6 +25,12 @@ public class App{
         deleteSchema(dataSource);
     }
 
+    /**
+     * Creates a Schema for the SQL database for initialization.
+     *
+     * @param dataSource
+     * @throws SQLException
+     */
     private static void createSchema(DataSource dataSource) throws SQLException {
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
@@ -32,6 +38,12 @@ public class App{
         }
     }
 
+    /**
+     * Deletes a created Schema for the SQL database for destruction.
+     *
+     * @param dataSource
+     * @throws SQLException
+     */
     private static void deleteSchema(DataSource dataSource) throws SQLException {
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
@@ -39,6 +51,11 @@ public class App{
         }
     }
 
+    /**
+     * Creates a DataSource for the connection.
+     *
+     * @return DataSource
+     */
     private static DataSource createDataSource() {
         var dS = new JdbcDataSource();
         dS.setURL(URL);
