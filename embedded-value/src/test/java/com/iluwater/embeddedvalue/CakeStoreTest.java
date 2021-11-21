@@ -21,6 +21,11 @@ public class CakeStoreTest {
             "DROP TABLE CAKESTORE IF EXISTS";
     public static final String INSERT_VALUE_SQL =
             "INSERT INTO CAKESTORE VALUES(0, 0, 0)";
+
+    /**
+     * Sets up variables and the database for the later tests.
+     * @throws SQLException
+     */
     @BeforeEach
     void initialize() throws SQLException
     {
@@ -40,6 +45,9 @@ public class CakeStoreTest {
         }
     }
 
+    /**
+     * Checks the update function of cakestore.
+     */
     @Test
     public void updateTest()
     {
@@ -52,8 +60,14 @@ public class CakeStoreTest {
         assertEquals(cakestore.getInventory().getMilk(), newMilk);
     }
 
+    /**
+     * Tests the situation where the connection has been successful.
+     */
     @Nested
     public class connectionSuccess{
+        /**
+         * Test the update DB function by querying the updated value.
+         */
         @Test
         public void updateDBTest()
         {
@@ -75,6 +89,9 @@ public class CakeStoreTest {
             }
         }
 
+        /**
+         * Check if the load function successfully stores the appropriate value.
+         */
         @Test
         public void loadTest()
         {
