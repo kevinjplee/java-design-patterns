@@ -104,7 +104,8 @@ public class CakeStore {
    */
   public boolean updateDB(DataSource ds) {
     try (var connection = ds.getConnection();
-        var statement = connection.prepareStatement("UPDATE CAKESTORE SET balance = ?, egg = ?, milk = ?")) {
+        var statement
+            = connection.prepareStatement("UPDATE CAKESTORE SET balance = ?, egg = ?, milk = ?")) {
       statement.setInt(1, balance);
       statement.setInt(2, inventory.getEgg());
       statement.setInt(3, inventory.getMilk());
