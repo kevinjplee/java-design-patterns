@@ -1,4 +1,27 @@
 /*
+*The MIT License
+*Copyright © 2014-2021 Ilkka Seppälä
+*
+*Permission is hereby granted, free of charge, to any person obtaining a copy
+*of this software and associated documentation files (the "Software"), to deal
+*in the Software without restriction, including without limitation the rights
+*to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*copies of the Software, and to permit persons to whom the Software is
+*furnished to do so, subject to the following conditions:
+*
+*The above copyright notice and this permission notice shall be included in
+*all copies or substantial portions of the Software.
+*
+*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+*THE SOFTWARE.
+*/
+
+/*
  *The MIT License
  *Copyright © 2014-2021 Ilkka Seppälä
  *
@@ -26,6 +49,7 @@ package com.iluwater.embeddedvalue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import org.h2.jdbcx.JdbcDataSource;
 
 /** Implementation of embedded-value. */
 public class CakeStore {
@@ -88,12 +112,21 @@ public class CakeStore {
   }
 
   /**
-   * Getter for private variable Inventory.
+   * Getter for the egg in inventory.
    *
-   * @return current inventory.
+   * @return current egg value.
    */
-  public Inventory getInventory() {
-    return inventory;
+  public int getEgg() {
+    return inventory.getEgg();
+  }
+
+  /**
+   * Getter for the milk in inventory.
+   *
+   * @return current milk value.
+   */
+  public int getMilk() {
+    return inventory.getMilk();
   }
 
   /**
@@ -104,8 +137,8 @@ public class CakeStore {
    */
   public boolean updateDB(DataSource ds) {
     try (var connection = ds.getConnection();
-        var statement
-            = connection.prepareStatement("UPDATE CAKESTORE SET balance = ?, egg = ?, milk = ?")) {
+        var statement =
+            connection.prepareStatement("UPDATE CAKESTORE SET balance = ?, egg = ?, milk = ?")) {
       statement.setInt(1, balance);
       statement.setInt(2, inventory.getEgg());
       statement.setInt(3, inventory.getMilk());

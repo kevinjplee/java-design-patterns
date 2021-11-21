@@ -1,4 +1,27 @@
 /*
+*The MIT License
+*Copyright © 2014-2021 Ilkka Seppälä
+*
+*Permission is hereby granted, free of charge, to any person obtaining a copy
+*of this software and associated documentation files (the "Software"), to deal
+*in the Software without restriction, including without limitation the rights
+*to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*copies of the Software, and to permit persons to whom the Software is
+*furnished to do so, subject to the following conditions:
+*
+*The above copyright notice and this permission notice shall be included in
+*all copies or substantial portions of the Software.
+*
+*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+*THE SOFTWARE.
+*/
+
+/*
  *The MIT License
  *Copyright © 2014-2021 Ilkka Seppälä
  *
@@ -75,8 +98,8 @@ public class CakeStoreTest {
     int newMilk = 15;
     cakestore.update(newBalance, newEgg, newMilk);
     assertEquals(cakestore.getBalance(), newBalance);
-    assertEquals(cakestore.getInventory().getEgg(), newEgg);
-    assertEquals(cakestore.getInventory().getMilk(), newMilk);
+    assertEquals(cakestore.getEgg(), newEgg);
+    assertEquals(cakestore.getMilk(), newMilk);
   }
 
   /** Tests the situation where the connection has been successful. */
@@ -134,16 +157,16 @@ public class CakeStoreTest {
       cakestore.update(tempBalance, tempEgg, tempMilk);
 
       assertEquals(cakestore.getBalance(), tempBalance);
-      assertEquals(cakestore.getInventory().getEgg(), tempEgg);
-      assertEquals(cakestore.getInventory().getMilk(), tempMilk);
+      assertEquals(cakestore.getEgg(), tempEgg);
+      assertEquals(cakestore.getMilk(), tempMilk);
       try (var connection = dataSource.getConnection();
           var statement = connection.prepareStatement("SELECT * FROM CAKESTORE")) {
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
           cakestore.load(rs);
           assertEquals(newBalance, cakestore.getBalance());
-          assertEquals(newEgg, cakestore.getInventory().getEgg());
-          assertEquals(newMilk, cakestore.getInventory().getMilk());
+          assertEquals(newEgg, cakestore.getEgg());
+          assertEquals(newMilk, cakestore.getMilk());
         }
       } catch (SQLException e) {
         e.printStackTrace();
