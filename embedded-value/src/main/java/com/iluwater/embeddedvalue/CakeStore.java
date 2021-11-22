@@ -49,7 +49,6 @@ package com.iluwater.embeddedvalue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.h2.jdbcx.JdbcDataSource;
 
 /** Implementation of embedded-value. */
 public class CakeStore {
