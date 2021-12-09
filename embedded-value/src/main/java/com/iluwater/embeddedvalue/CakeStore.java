@@ -42,6 +42,8 @@
  *LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *THE SOFTWARE.
+ *
+ * CS427 Issue link: https://github.com/iluwatar/java-design-patterns/issues/1295
  */
 
 package com.iluwater.embeddedvalue;
